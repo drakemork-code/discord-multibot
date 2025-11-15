@@ -235,7 +235,6 @@ client.on("ready", () => {
 // ================= MENÚ PRINCIPAL ====================
 // =====================================================
 
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 
 function getMainMenuEmbed() { return new EmbedBuilder() .setTitle("📢 Centro de Actividades") .setColor("#2ecc71") .setDescription( "Bienvenido al panel principal.\n\n" + "Selecciona el tipo de actividad que deseas crear. Cada opción generará su propio panel con roles y un canal de voz automático." ) .addFields( { name: "⚔️ Actividades Disponibles", value: "🟦 Grupales — Actividades generales para el equipo.\n" + "🟩 Estáticas T7 — Grupos de roles fijos.\n" + "🟨 Dorados T7 Bracilean — Actividad especial de farmeo.\n" + "🟥 Gank T7 — Actividad PvP de cacería.", } ) .setThumbnail("https://cdn-icons-png.flaticon.com/512/854/854878.png") .setFooter({ text: "Clan ツLORD AMERICA • Sistema de Actividades" }) .setTimestamp(); }
 
