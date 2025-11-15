@@ -1,59 +1,28 @@
-const { Client, GatewayIntentBits, PermissionsBitField } = require("discord.js");
+// bot2.js - Versión FINAL optimizada para Render.com (Discord.js v14) 
+// ------------------------------- IMPORTS -------------------------------
+const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, } = require("discord.js");
 
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildVoiceStates
-  ]
-});
+// ------------------------------- CLIENT ------------------------------- 
+const client = new Client({ intents: [ GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, ], });
 
-// Variables desde Railway
-const LOBBY_CHANNEL_ID = process.env.LOBBY_CHANNEL_ID;
-const MEMBERS_ROLE_ID = process.env.MEMBERS_ROLE_ID;
-const CATEGORY_ID = process.env.CATEGORY_ID;
-const TEMP_PREFIX = "Temp-";
+// ------------------------ VARIABLES DE ENTORNO ------------------------
+const AUTO_PING_CHANNEL_ID = process.env.AUTO_PING_CHANNEL_ID; const ACTIVITIES_CHANNEL_ID = process.env.ACTIVITIES_CHANNEL_ID; const CALLER_ROLE = process.env.CALLER_ROLE; const BOT2_TOKEN = process.env.BOT2_TOKEN;
 
-client.on("voiceStateUpdate", async (oldState, newState) => {
-  if (!oldState.channelId && newState.channelId === LOBBY_CHANNEL_ID) {
+// ----------------------- CANALES DE VOZ TEMPORALES ----------------------- 
+let staticsVoiceChannelId = null; let grupalVoiceChannelId = null; let doradosVoiceChannelId = null; let gankVoiceChannelId = null;
 
-    const guild = newState.guild;
-    const member = newState.member;
+// ----------------------- SISTEMAS DE ROLES ----------------------------
+//ESTÁTICAS
+let staticsRoles = { tank: [], healer: [], flamigero: [], rompe: [], shadow: [] }; const ROLE_LIMIT = { tank: 1, healer: 1, flamigero: 1, rompe: 1, shadow: 1 };
 
-    const tempChannel = await guild.channels.create({
-      name: `${TEMP_PREFIX}${member.user.username}`,
-      type: 2,
-      parent: CATEGORY_ID,
-      permissionOverwrites: [
-        {
-          id: guild.id,
-          deny: [PermissionsBitField.Flags.Connect]
-        },
-        {
-          id: MEMBERS_ROLE_ID,
-          allow: [PermissionsBitField.Flags.Connect]
-        },
-        {
-          id: member.id,
-          allow: [
-            PermissionsBitField.Flags.Connect,
-            PermissionsBitField.Flags.ManageChannels
-          ]
-        }
-      ]
-    });
+// GRUPALES 
+ let grupalRoles = { tank: [], healer: [], flamigero: [], prisma: [], shadow: [], badon: [] }; const GRUPAL_LIMIT = { tank: 1, healer: 1, flamigero: 1, prisma: 1, shadow: 1, badon: 1 };
 
-    await member.voice.setChannel(tempChannel);
-  }
+// DORADOS 
+ let doradosRoles = { tank: [], healer: [], stopper: [], flamigero: [], perfora: [] }; const DORADOS_LIMIT = { tank: 1, healer: 1, stopper: 1, flamigero: 1, perfora: 3 };
 
-  if (oldState.channel && oldState.channel.name.startsWith(TEMP_PREFIX)) {
-    if (oldState.channel.members.size === 0) {
-      oldState.channel.delete().catch(() => {});
-    }
-  }
-});
+// GANK 
+ let gankRoles = { tank: [], cc: [], healer: [], dps: [] }; const GANK_LIMIT = { tank: 1, cc: 1, healer: 1, dps: 4 };
 
-client.once("ready", () => {
-  console.log(`Bot conectado como ${client.user.tag}`);
-});
-
-client.login(process.env.BOT1_TOKEN);
+// ----------------------- EMBEDS DE ACTIVIDADES ----------------------------
+function getMainMenuEmbed() { return new EmbedBuilder() .setTitle("📢 Centro de Actividades") .setColor("#2ecc71") .setDescription( "Bienvenido al panel principal.\n\n" + "Selecciona el tipo de actividad que deseas crear. Cada opción generará su propio panel con roles y un canal de voz automático." ) .addFields({ name: "⚔️ Actividades Disponibles
