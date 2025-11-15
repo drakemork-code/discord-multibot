@@ -1,0 +1,13 @@
+{
+  "name": "discord-multibot",
+  "version": "1.0.0",
+  "description": "Dos bots de Discord en un mismo proyecto.",
+  "main": "bot1.js",
+  "scripts": {
+    "bot1": "node bot1.js",
+    "bot2": "node bot2.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.13.0"
+  }
+}
