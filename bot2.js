@@ -234,26 +234,37 @@ client.on("ready", () => {
 // =====================================================
 // ================= MENÚ PRINCIPAL ====================
 // =====================================================
-client.on("messageCreate", async (message) => {
-  if (message.content === "!setupactivities") {
-    if (message.channel.id !== AUTO_PING_CHANNEL_ID) return;
 
-    const embed = new EmbedBuilder()
-      .setTitle("📢 Selecciona el tipo de Actividad")
-      .setColor("#2ecc71")
-      .setDescription("Elige la actividad que deseas crear:")
-      .setTimestamp();
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 
-    const buttons = new ActionRowBuilder().addComponents(
-      new ButtonBuilder().setCustomId("actividad_grupales").setLabel("Grupales").setStyle(ButtonStyle.Primary),
-      new ButtonBuilder().setCustomId("actividad_estaticas").setLabel("Estáticas").setStyle(ButtonStyle.Success),
-      new ButtonBuilder().setCustomId("actividad_dorados").setLabel("Dorados").setStyle(ButtonStyle.Warning),
-      new ButtonBuilder().setCustomId("actividad_gank").setLabel("Gank").setStyle(ButtonStyle.Danger)
-    );
+function getMainMenuEmbed() { return new EmbedBuilder() .setTitle("📢 Centro de Actividades") .setColor("#2ecc71") .setDescription( "Bienvenido al panel principal.\n\n" + "Selecciona el tipo de actividad que deseas crear. Cada opción generará su propio panel con roles y un canal de voz automático." ) .addFields( { name: "⚔️ Actividades Disponibles", value: "🟦 Grupales — Actividades generales para el equipo.\n" + "🟩 Estáticas T7 — Grupos de roles fijos.\n" + "🟨 Dorados T7 Bracilean — Actividad especial de farmeo.\n" + "🟥 Gank T7 — Actividad PvP de cacería.", } ) .setThumbnail("https://cdn-icons-png.flaticon.com/512/854/854878.png") .setFooter({ text: "Clan ツLORD AMERICA • Sistema de Actividades" }) .setTimestamp(); }
 
-    await message.channel.send({ embeds: [embed], components: [buttons] });
-  }
-});
+function getMainMenuButtons() { return [ new ActionRowBuilder().addComponents( new ButtonBuilder() .setCustomId("actividad_grupales") .setLabel("Grupales") .setEmoji("🟦") .setStyle(ButtonStyle.Primary),
+
+new ButtonBuilder()
+    .setCustomId("actividad_estaticas")
+    .setLabel("Estáticas T7")
+    .setEmoji("🟩")
+    .setStyle(ButtonStyle.Success)
+),
+
+new ActionRowBuilder().addComponents(
+  new ButtonBuilder()
+    .setCustomId("actividad_dorados")
+    .setLabel("Dorados T7")
+    .setEmoji("🟨")
+    .setStyle(ButtonStyle.Secondary),
+
+  new ButtonBuilder()
+    .setCustomId("actividad_gank")
+    .setLabel("Gank T7")
+    .setEmoji("🟥")
+    .setStyle(ButtonStyle.Danger)
+)
+
+]; }
+
+module.exports = { getMainMenuEmbed, getMainMenuButtons };
 
 // =====================================================
 // =============== HANDLERS DE BOTONES =================
