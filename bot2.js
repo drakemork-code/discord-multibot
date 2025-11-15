@@ -16,7 +16,7 @@ const CALLER_ROLE = process.env.CALLER_ROLE;
 let staticsRoles = {
     tank: [],
     healer: [],
-    azufre: [],
+    flamigero: [],
     rompe: [],
     shadow: []
 };
@@ -24,7 +24,7 @@ let staticsRoles = {
 const ROLE_LIMIT = {
     tank: 1,
     healer: 1,
-    azufre: 1,
+    flamigero: 1,
     rompe: 1,
     shadow: 1
 };
@@ -37,7 +37,7 @@ function getStaticsEmbed() {
         .addFields(
             { name: "🛡️ TANK (1)", value: `${staticsRoles.tank.map(id => `<@${id}>`).join("\n") || "*Vacante*"}` },
             { name: "✨ HEALER (1)", value: `${staticsRoles.healer.map(id => `<@${id}>`).join("\n") || "*Vacante*"}` },
-            { name: "🔥 AZUFRE (1)", value: `${staticsRoles.azufre.map(id => `<@${id}>`).join("\n") || "*Vacante*"}` },
+            { name: "🔥 FLAMIGERO (1)", value: `${staticsRoles.azufre.map(id => `<@${id}>`).join("\n") || "*Vacante*"}` },
             { name: "⚔️ ROMPE (1)", value: `${staticsRoles.rompe.map(id => `<@${id}>`).join("\n") || "*Vacante*"}` },
             { name: "🌑 SHADOWCALLER (1)", value: `${staticsRoles.shadow.map(id => `<@${id}>`).join("\n") || "*Vacante*"}` }
         )
@@ -49,7 +49,7 @@ function getStaticsButtons(disabled = false) {
         new ActionRowBuilder().addComponents(
             new ButtonBuilder().setCustomId("tank").setLabel("Tank").setStyle(ButtonStyle.Primary).setDisabled(disabled || staticsRoles.tank.length >= 1),
             new ButtonBuilder().setCustomId("healer").setLabel("Healer").setStyle(ButtonStyle.Success).setDisabled(disabled || staticsRoles.healer.length >= 1),
-            new ButtonBuilder().setCustomId("azufre").setLabel("Azufre").setStyle(ButtonStyle.Secondary).setDisabled(disabled || staticsRoles.azufre.length >= 1),
+            new ButtonBuilder().setCustomId("azufre").setLabel("Flamigero").setStyle(ButtonStyle.Secondary).setDisabled(disabled || staticsRoles.azufre.length >= 1),
             new ButtonBuilder().setCustomId("rompe").setLabel("RompeReinos").setStyle(ButtonStyle.Danger).setDisabled(disabled || staticsRoles.rompe.length >= 1),
             new ButtonBuilder().setCustomId("shadow").setLabel("ShadowCaller").setStyle(ButtonStyle.Primary).setDisabled(disabled || staticsRoles.shadow.length >= 1)
         ),
@@ -120,7 +120,7 @@ client.on("interactionCreate", async interaction => {
     const roleMap = {
         tank: "tank",
         healer: "healer",
-        azufre: "azufre",
+        flamigero: "azufre",
         rompe: "rompe",
         shadow: "shadow"
     };
